@@ -1,39 +1,18 @@
 import seaborn as sns
 import subprocess
 from matplotlib import pyplot as plt
-def get_aggr():
-    """
-    output: str
-    example output:
-Tue 07 May 2024 - 00s
-
-
-Wed 08 May 2024 - 5h 29m 53s
-  journal-club - 13m 46s
-
-  mcotm - 5h 16m 07s
-        [cnv  5h 16m 07s]
-
-
-Thu 09 May 2024 - 00s
-
-
-Fri 10 May 2024 - 1h 07m 54s
-  mcotm - 1h 07m 54s
-        [cnv  1h 07m 54s]
-
-    """
+def get_aggr() -> str:
     data:str  = subprocess.run(['watson', "aggregate"],  stdout=subprocess.PIPE).stdout.decode('utf-8')
     return data
 
-def sum_time(i:int,x: str):
+def sum_time(i:int,x: str) -> float:
     if i == 1:
         return int(x[:-1])/60
     elif i == 2:
         return int(x[:-1])/3600
     return int(x[:-1])
     
-def parse_aggr(data:str):
+def parse_aggr(data:str) -> dict:
     weekly_hours :dict = dict()
     for line in data.split("\n"):
         if len(line) == 0:
@@ -48,7 +27,7 @@ def parse_aggr(data:str):
     weekly_hours = {k: weekly_hours[k] for k in day_order}
     return weekly_hours
 
-def get_total_time(weekly_hours:dict):
+def get_total_time(weekly_hours:dict) -> float:
     return sum(weekly_hours.values())
 
 def plot_aggr(data: dict, total_time : float = None):
