@@ -7,6 +7,7 @@ setup(
     author='Your Name',
     author_email='your.email@example.com',
     packages=find_packages(),
+    py_modules=['wseaborn'],
     install_requires=[
         'matplotlib',
         'seaborn'
