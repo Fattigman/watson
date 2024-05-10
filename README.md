@@ -12,12 +12,23 @@ Python wrapper around Watson, the client based time tracker.
 - [License](#license)
 
 ## Installation
+Install watson by following their instructions [here](https://github.com/TailorDev/Watson).
+Then proceed with the following
 ```
+# Pull the project like
+git clone github.com/Fattigman/watson 
+cd watson
+# To run from python
 conda env create -f environment.yml
+# To run from command line
+pip install .
 ```
 ## Usage
 ```
-python watson.py
+# Running as a python script
+python wseaborn.py
+# Running as a command line tool
+wseaborn
 ```
 
 ## License
