@@ -1,4 +1,4 @@
-name: watson
+name: wseaborn
 channels:
   - defaults
 dependencies:
