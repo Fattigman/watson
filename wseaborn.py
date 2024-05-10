@@ -58,9 +58,10 @@ def plot_aggr(data: dict, total_time : float = None):
     if total_time:
         plt.title(f"Total time: {total_time} hours")
     sns.barplot(x = list(data.keys()), y = list(data.values()))
+    plt.show()
 
-data = get_aggr()
-data = parse_aggr(data)
-total_time = get_total_time(data)
-plot_aggr(data, total_time)
-plt.show()
+def main():
+    data = get_aggr()
+    weekly_hours = parse_aggr(data)
+    total_time = get_total_time(weekly_hours)
+    plot_aggr(weekly_hours, total_time)
