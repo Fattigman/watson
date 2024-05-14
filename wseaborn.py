@@ -46,7 +46,7 @@ def plot_aggr(data: pd.DataFrame, total_time : float = None):
     plt.axhline(y=8, color='r', linestyle='--')
     # Add the total time to the plot if available
     if total_time:
-        plt.title(f"Total time: {total_time} hours")
+        plt.title(f"Total time last 7 days: {total_time} hours")
     sns.histplot(data, x='Day', hue='Activity', weights='Time',
              multiple='stack')
     plt.show()
@@ -54,8 +54,8 @@ def plot_aggr(data: pd.DataFrame, total_time : float = None):
 def main():
     data = get_aggr()
     weekly_hours = parse_aggr(data)
-    #total_time = get_total_time(weekly_hours)
-    plot_aggr(weekly_hours)
+    total_time = round(weekly_hours['Time'].sum(), 2)
+    plot_aggr(weekly_hours, total_time)
 
 if __name__ == "__main__":
     main()
