@@ -20,21 +20,31 @@ def sum_time(i:int,x: str) -> float:
     return int(x[:-1])
     
 def parse_aggr(data:str) -> pd.DataFrame:
-    weekly_hours = pd.DataFrame(columns=["Day", "Time", "Activity"])
+    weekly_hours = pd.DataFrame(columns=["Day", "Time", "Activity", 'Day of Week'])
     rows_list = []
     for line in data.split("\n"):
         if len(line) == 0:
             continue
         if line[0] in ["M", "T", "W", "F", "S"]:
             day :str = line.split(" ")[0]
+            day_of_week :str = line.split(" ")[1]
         elif line[0] != "\t":
             activity_type :str = line.split(" ")[2]
             time : str= line.split(" - ")[1]
             total_time : float = sum([sum_time(i,x) for i, x in enumerate(time.split(" "))])
-            rows_list.append({"Day":day, "Time":total_time, "Activity":activity_type})
+            rows_list.append({"Day":day, "Time":total_time, "Activity":activity_type, 'Day of Week':day_of_week})
 
     weekly_hours = pd.concat([weekly_hours, pd.DataFrame(rows_list)], ignore_index=True)
-    print(weekly_hours)
+    # Filter out duplicate days
+    table = weekly_hours.groupby(['Day', 'Day of Week']).sum().reset_index()
+    for day in table['Day']:
+        # If there are multiple entries for the same day, remove all but the last
+        if (table['Day'] == day).sum() > 1:
+            for counter, i in enumerate(weekly_hours['Day'] == day):
+                if i:
+                    weekly_hours.drop(counter, inplace=True)
+                else:   
+                    break
     # Sort the dictionary by day
     return weekly_hours
 
