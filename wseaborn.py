@@ -57,9 +57,26 @@ def plot_aggr(data: pd.DataFrame, total_time : float = None):
     # Add the total time to the plot if available
     if total_time:
         plt.title(f"Total time last 7 days: {total_time} hours")
-    sns.histplot(data, x='Day', hue='Activity', weights='Time',
+    ax = sns.histplot(data, x='Day', hue='Activity', weights='Time',
              multiple='stack')
+    
+    # Add the total height of each bar to the top of the bar
+    heights = {}
+    for counter, p in enumerate(ax.patches):
+        # Get the height of the bin
+        if p.get_x() in heights:
+            heights[p.get_x()] += p.get_height()
+        else:
+            heights[p.get_x()] = p.get_height()
+    # display the height of each bar
+    for x in heights:
+        ax.text(x = x+0.5, 
+                y = heights[x]+.05, 
+                s = '{:.2f}'.format(heights[x]), 
+                ha = 'center')
+
     plt.show()
+
 
 def main():
     data = get_aggr()
