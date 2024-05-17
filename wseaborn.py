@@ -74,7 +74,7 @@ def plot_aggr(data: pd.DataFrame, total_time : float = None):
                 y = heights[x]+.05, 
                 s = '{:.2f}'.format(heights[x]), 
                 ha = 'center')
-
+    plt.ylabel("Hours (h)")
     plt.show()
 
 
